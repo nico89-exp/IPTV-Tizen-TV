@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://matif.dev/iptvmanager"
+        version="1.0.0"
+        viewmodes="fullscreen">
+
+  <!-- ═══════════════════════════════════════════════════
+       MÉTADONNÉES DE L'APPLICATION
+       ═══════════════════════════════════════════════════ -->
+  <tizen:application id="AbCdEfGhIj.IPTVManager"
+                     package="AbCdEfGhIj"
+                     required_version="6.0"
+                     launch_mode="single"/>
+
+  <name>IPTV Manager</name>
+  <name xml:lang="fr">IPTV Manager</name>
+  <description>Gestionnaire IPTV avec support Xtream Codes et M3U pour Samsung TV</description>
+  <description xml:lang="fr">Regardez vos chaînes IPTV, films et séries sur votre Samsung TV</description>
+
+  <!-- Auteur -->
+  <author href="https://github.com/matifDreamIt" email="contact@iptvmanager.app">
+    IPTV Manager Team
+  </author>
+
+  <!-- ═══════════════════════════════════════════════════
+       ICÔNE ET SPLASH
+       ═══════════════════════════════════════════════════ -->
+  <icon src="images/icon.png"/>
+  <icon src="images/icon-tv.png" platform="tv"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONTENU PRINCIPAL
+       ═══════════════════════════════════════════════════ -->
+  <content src="index.html"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       FONCTIONNALITÉS TIZEN REQUISES
+       ═══════════════════════════════════════════════════ -->
+
+  <!-- Accès réseau (requis pour les flux IPTV) -->
+  <feature name="http://tizen.org/feature/network.internet"/>
+  <feature name="http://tizen.org/feature/network.ethernet"/>
+  <feature name="http://tizen.org/feature/network.wifi"/>
+
+  <!-- Lecture vidéo -->
+  <feature name="http://tizen.org/feature/multimedia.player.audio"/>
+  <feature name="http://tizen.org/feature/multimedia.player.video"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       PRIVILÈGES (PERMISSIONS)
+       ═══════════════════════════════════════════════════ -->
+
+  <!-- Lecture multimédia (obligatoire pour IPTV) -->
+  <tizen:privilege name="http://developer.samsung.com/privilege/avplay"/>
+
+  <!-- Accès internet -->
+  <tizen:privilege name="http://tizen.org/privilege/internet"/>
+
+  <!-- Stockage local -->
+  <tizen:privilege name="http://tizen.org/privilege/websetting"/>
+
+  <!-- Infos système TV -->
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+
+  <!-- Touches de télécommande -->
+  <tizen:privilege name="http://developer.samsung.com/privilege/inputdevice"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONFIGURATION TV SAMSUNG
+       ═══════════════════════════════════════════════════ -->
+
+  <!-- Accès au lecteur Samsung AVPlay (recommandé pour HLS/DASH natif) -->
+  <tizen:metadata key="http://developer.samsung.com/tv/avplay" value="use"/>
+
+  <!-- Mode d'affichage TV -->
+  <tizen:metadata key="http://samsung.com/tv/metadata/runningtype" value="MAIN"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       SÉCURITÉ CONTENU
+       ═══════════════════════════════════════════════════ -->
+
+  <!-- Politique de sécurité du contenu -->
+  <tizen:content-security-policy>
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: http: https:;
+    media-src 'self' http: https: blob:;
+    connect-src 'self' http: https:;
+    font-src 'self' data:;
+  </tizen:content-security-policy>
+
+  <!-- Politique réseau (allow-navigation pour les URL IPTV) -->
+  <access origin="*" subdomains="true"/>
+  <tizen:allow-navigation href="http://*/*" subdomains="true"/>
+  <tizen:allow-navigation href="https://*/*" subdomains="true"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       TIZEN PROFILE TV
+       ═══════════════════════════════════════════════════ -->
+  <tizen:profile name="TV"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       PARAMÈTRES D'AFFICHAGE
+       ═══════════════════════════════════════════════════ -->
+  <preference name="WebAppTizenVersion" value="7.0"/>
+  <preference name="AllowAudioActivationWithoutUserInteraction" value="true"/>
+  <preference name="AutoHideSplashScreen" value="true"/>
+  <preference name="EnableSafeBrowsing" value="false"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       LOCALISATION
+       ═══════════════════════════════════════════════════ -->
+  <license xml:lang="fr">
+    IPTV Manager pour Samsung TV — Usage personnel uniquement.
+    Cet outil est un lecteur multimédia. L'utilisateur est responsable
+    du contenu qu'il diffuse et doit respecter les droits d'auteur.
+  </license>
+
+</widget>

@@ -1,0 +1,7 @@
+# IPTV Manager Tizen TV
+.git
+node_modules
+*.md
+scripts
+.gitignore
+package-lock.json

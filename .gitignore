@@ -1,0 +1,18 @@
+# Dépendances Node
+node_modules/
+
+# Fichiers OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Builds / packages WGT générés
+*.wgt
+
+# IDE
+.vscode/
+.idea/
+*.swp

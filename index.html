@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>IPTV Manager - Samsung TV</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- hls.js pour les streams HLS -->
+  <script src="libs/hls.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ÉCRAN DE CHARGEMENT
+═══════════════════════════════════════════════════════════ -->
+<div id="splash-screen" class="splash">
+  <div class="splash-logo">
+    <div class="splash-icon">📺</div>
+    <h1 class="splash-title">IPTV Manager</h1>
+    <p class="splash-subtitle">Samsung TV Edition</p>
+  </div>
+  <div class="splash-loader">
+    <div class="loader-bar"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ÉCRAN DE CONNEXION XTREAM
+═══════════════════════════════════════════════════════════ -->
+<div id="login-screen" class="screen hidden">
+  <div class="login-container">
+    <div class="login-header">
+      <div class="login-icon">📺</div>
+      <h1>IPTV Manager</h1>
+      <p>Connectez votre compte Xtream Codes</p>
+    </div>
+    <div class="login-form">
+      <div class="form-group">
+        <label for="login-name">Nom du compte</label>
+        <input type="text" id="login-name" class="tv-input" placeholder="Mon IPTV" tabindex="1">
+      </div>
+      <div class="form-group">
+        <label for="login-server">URL du serveur</label>
+        <input type="text" id="login-server" class="tv-input" placeholder="http://serveur.com:8080" tabindex="2">
+      </div>
+      <div class="form-group">
+        <label for="login-username">Nom d'utilisateur</label>
+        <input type="text" id="login-username" class="tv-input" placeholder="username" tabindex="3">
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input type="password" id="login-password" class="tv-input" placeholder="••••••••" tabindex="4">
+      </div>
+      <div class="form-actions">
+        <button id="btn-login" class="tv-btn tv-btn-primary" tabindex="5">
+          <span>Se connecter</span>
+        </button>
+        <button id="btn-demo" class="tv-btn tv-btn-secondary" tabindex="6">
+          <span>Mode démo</span>
+        </button>
+      </div>
+      <div id="login-error" class="login-error hidden"></div>
+      <div id="login-loading" class="login-loading hidden">
+        <div class="spinner"></div>
+        <span>Connexion en cours...</span>
+      </div>
+    </div>
+    <!-- Comptes sauvegardés -->
+    <div id="saved-accounts-section" class="saved-accounts hidden">
+      <h3>Comptes sauvegardés</h3>
+      <div id="saved-accounts-list" class="accounts-list"></div>
+    </div>
+  </div>
+  <!-- Aide navigation -->
+  <div class="key-hints">
+    <span>↑↓ Naviguer</span>
+    <span>OK Sélectionner</span>
+    <span>⬅ Retour</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     APPLICATION PRINCIPALE
+═══════════════════════════════════════════════════════════ -->
+<div id="main-app" class="screen hidden">
+
+  <!-- SIDEBAR DE NAVIGATION -->
+  <nav id="sidebar" class="sidebar collapsed">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">📺</div>
+      <span class="sidebar-title">IPTV</span>
+    </div>
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item active" data-tab="home" tabindex="10">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Accueil</span>
+      </li>
+      <li class="nav-item" data-tab="live" tabindex="11">
+        <span class="nav-icon">📡</span>
+        <span class="nav-label">TV en direct</span>
+      </li>
+      <li class="nav-item" data-tab="vod" tabindex="12">
+        <span class="nav-icon">🎬</span>
+        <span class="nav-label">Films</span>
+      </li>
+      <li class="nav-item" data-tab="series" tabindex="13">
+        <span class="nav-icon">📺</span>
+        <span class="nav-label">Séries</span>
+      </li>
+      <li class="nav-item" data-tab="favorites" tabindex="14">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label">Favoris</span>
+      </li>
+      <li class="nav-item" data-tab="recents" tabindex="15">
+        <span class="nav-icon">🕐</span>
+        <span class="nav-label">Récents</span>
+      </li>
+      <li class="nav-item" data-tab="settings" tabindex="16">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Paramètres</span>
+      </li>
+    </ul>
+    <div class="sidebar-account" id="sidebar-account">
+      <div class="account-avatar">👤</div>
+      <div class="account-info">
+        <span class="account-name" id="account-name-display">-</span>
+        <span class="account-status" id="account-status-display">-</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ZONE DE CONTENU PRINCIPALE -->
+  <main id="content-area" class="content-area">
+
+    <!-- ─── ONGLET ACCUEIL ─── -->
+    <div id="tab-home" class="tab-content active">
+      <div class="tab-header">
+        <h2>Accueil</h2>
+        <div class="header-clock" id="header-clock"></div>
+      </div>
+
+      <!-- Continuer à regarder -->
+      <section class="content-section" id="section-recents">
+        <div class="section-header">
+          <h3>Continuer à regarder</h3>
+        </div>
+        <div class="horizontal-scroll" id="home-recents-list">
+          <div class="empty-row">Aucun contenu récent</div>
+        </div>
+      </section>
+
+      <!-- Chaînes favorites -->
+      <section class="content-section" id="section-fav-live">
+        <div class="section-header">
+          <h3>Chaînes favorites</h3>
+        </div>
+        <div class="horizontal-scroll" id="home-fav-live-list">
+          <div class="empty-row">Aucune chaîne favorite</div>
+        </div>
+      </section>
+
+      <!-- Films récents -->
+      <section class="content-section" id="section-fav-vod">
+        <div class="section-header">
+          <h3>Films favoris</h3>
+        </div>
+        <div class="horizontal-scroll" id="home-fav-vod-list">
+          <div class="empty-row">Aucun film favori</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ─── ONGLET TV EN DIRECT ─── -->
+    <div id="tab-live" class="tab-content">
+      <div class="tab-header">
+        <h2>TV en direct</h2>
+        <input type="text" id="live-search" class="tab-search" placeholder="Rechercher une chaîne...">
+      </div>
+      <div class="two-column-layout">
+        <!-- Catégories -->
+        <div class="categories-panel" id="live-categories-panel">
+          <div class="category-item active" data-id="all">Toutes les chaînes</div>
+        </div>
+        <!-- Liste des chaînes -->
+        <div class="channels-panel" id="live-channels-list">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Chargement...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ONGLET FILMS (VOD) ─── -->
+    <div id="tab-vod" class="tab-content">
+      <div class="tab-header">
+        <h2>Films</h2>
+        <input type="text" id="vod-search" class="tab-search" placeholder="Rechercher un film...">
+      </div>
+      <div class="two-column-layout">
+        <div class="categories-panel" id="vod-categories-panel">
+          <div class="category-item active" data-id="all">Tous les films</div>
+        </div>
+        <div class="grid-panel" id="vod-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Chargement...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ONGLET SÉRIES ─── -->
+    <div id="tab-series" class="tab-content">
+      <div class="tab-header">
+        <h2>Séries</h2>
+        <input type="text" id="series-search" class="tab-search" placeholder="Rechercher une série...">
+      </div>
+      <div class="two-column-layout">
+        <div class="categories-panel" id="series-categories-panel">
+          <div class="category-item active" data-id="all">Toutes les séries</div>
+        </div>
+        <div class="grid-panel" id="series-grid">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Chargement...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── ONGLET FAVORIS ─── -->
+    <div id="tab-favorites" class="tab-content">
+      <div class="tab-header">
+        <h2>Mes Favoris</h2>
+      </div>
+      <div class="sub-tabs">
+        <button class="sub-tab active" data-subtab="fav-live">Chaînes</button>
+        <button class="sub-tab" data-subtab="fav-vod">Films</button>
+        <button class="sub-tab" data-subtab="fav-series">Séries</button>
+      </div>
+      <div id="fav-live" class="sub-tab-content active">
+        <div class="grid-panel" id="fav-live-grid"></div>
+      </div>
+      <div id="fav-vod" class="sub-tab-content">
+        <div class="grid-panel" id="fav-vod-grid"></div>
+      </div>
+      <div id="fav-series" class="sub-tab-content">
+        <div class="grid-panel" id="fav-series-grid"></div>
+      </div>
+    </div>
+
+    <!-- ─── ONGLET RÉCENTS ─── -->
+    <div id="tab-recents" class="tab-content">
+      <div class="tab-header">
+        <h2>Récemment regardés</h2>
+        <button class="tv-btn tv-btn-danger" id="btn-clear-recents">Tout effacer</button>
+      </div>
+      <div class="grid-panel" id="recents-grid"></div>
+    </div>
+
+    <!-- ─── ONGLET PARAMÈTRES ─── -->
+    <div id="tab-settings" class="tab-content">
+      <div class="tab-header">
+        <h2>Paramètres</h2>
+      </div>
+      <div class="settings-layout">
+        <!-- Compte actif -->
+        <div class="settings-section">
+          <h3>Compte actif</h3>
+          <div id="settings-active-account" class="account-card"></div>
+          <button class="tv-btn tv-btn-secondary" id="btn-add-account">+ Ajouter un compte</button>
+        </div>
+        <!-- Comptes sauvegardés -->
+        <div class="settings-section">
+          <h3>Comptes sauvegardés</h3>
+          <div id="settings-accounts-list" class="accounts-list"></div>
+        </div>
+        <!-- Préférences -->
+        <div class="settings-section">
+          <h3>Préférences</h3>
+          <div class="setting-row">
+            <span>Qualité vidéo</span>
+            <select class="tv-select" id="pref-quality">
+              <option value="auto">Automatique</option>
+              <option value="high">Haute</option>
+              <option value="medium">Moyenne</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <span>Langue</span>
+            <select class="tv-select" id="pref-lang">
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+              <option value="ar">العربية</option>
+            </select>
+          </div>
+        </div>
+        <!-- Navigation télécommande -->
+        <div class="settings-section">
+          <h3>Guide télécommande</h3>
+          <div class="remote-guide">
+            <div class="remote-row"><kbd>↑ ↓ ← →</kbd> <span>Naviguer dans les menus</span></div>
+            <div class="remote-row"><kbd>OK / Enter</kbd> <span>Sélectionner / Lancer</span></div>
+            <div class="remote-row"><kbd>Return / Back</kbd> <span>Retour</span></div>
+            <div class="remote-row"><kbd>← (dans contenu)</kbd> <span>Ouvrir menu latéral</span></div>
+            <div class="remote-row"><kbd>Play/Pause</kbd> <span>Lecture / Pause</span></div>
+            <div class="remote-row"><kbd>← → (lecteur)</kbd> <span>Reculer / Avancer 10s</span></div>
+            <div class="remote-row"><kbd>↑ ↓ (lecteur)</kbd> <span>Avancer / Reculer 30s</span></div>
+            <div class="remote-row"><kbd>Rouge</kbd> <span>Ajouter / Retirer favori</span></div>
+          </div>
+        </div>
+        <!-- Version -->
+        <div class="settings-section">
+          <div class="app-version">
+            <span>IPTV Manager Tizen TV</span>
+            <span>Version 1.0.0 — Samsung TV Edition</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL DÉTAIL SÉRIE
+═══════════════════════════════════════════════════════════ -->
+<div id="series-detail-modal" class="modal hidden">
+  <div class="modal-content series-modal">
+    <div class="series-hero">
+      <img id="series-detail-cover" src="" alt="" class="series-cover-large">
+      <div class="series-info-overlay">
+        <h2 id="series-detail-title"></h2>
+        <p id="series-detail-plot" class="series-plot"></p>
+        <div class="series-meta">
+          <span id="series-detail-genre" class="meta-badge"></span>
+          <span id="series-detail-rating" class="meta-badge"></span>
+          <span id="series-detail-year" class="meta-badge"></span>
+        </div>
+        <button id="btn-series-favorite" class="tv-btn tv-btn-favorite">⭐ Ajouter aux favoris</button>
+      </div>
+    </div>
+    <!-- Sélecteur de saison -->
+    <div class="season-selector" id="season-selector"></div>
+    <!-- Liste épisodes -->
+    <div class="episodes-list" id="episodes-list">
+      <div class="loading-state"><div class="spinner"></div><p>Chargement des épisodes...</p></div>
+    </div>
+    <button class="modal-close" id="btn-close-series">✕ Fermer</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LECTEUR VIDÉO PLEIN ÉCRAN
+═══════════════════════════════════════════════════════════ -->
+<div id="player-screen" class="screen hidden">
+  <video id="main-video" class="main-video" preload="none"></video>
+
+  <!-- Overlay contrôles -->
+  <div id="player-overlay" class="player-overlay">
+    <!-- Info titre -->
+    <div class="player-top">
+      <div class="player-title-area">
+        <span id="player-channel-name" class="player-title"></span>
+        <span id="player-subtitle" class="player-subtitle"></span>
+        <span id="player-live-badge" class="live-badge hidden">● LIVE</span>
+      </div>
+      <div class="player-top-actions">
+        <button id="player-btn-favorite" class="player-action-btn" title="Favori">⭐</button>
+        <button id="player-btn-close" class="player-action-btn" title="Fermer">✕</button>
+      </div>
+    </div>
+
+    <!-- Barre de progression (masquée pour LIVE) -->
+    <div class="player-bottom">
+      <div class="player-controls">
+        <button id="player-btn-seek-back30" class="ctrl-btn" title="-30s">⏪</button>
+        <button id="player-btn-seek-back" class="ctrl-btn" title="-10s">⏮</button>
+        <button id="player-btn-playpause" class="ctrl-btn ctrl-main">▶</button>
+        <button id="player-btn-seek-fwd" class="ctrl-btn" title="+10s">⏭</button>
+        <button id="player-btn-seek-fwd30" class="ctrl-btn" title="+30s">⏩</button>
+      </div>
+      <div id="player-progress-area" class="player-progress-area hidden">
+        <span id="player-time-current" class="time-display">00:00</span>
+        <div class="progress-bar-container">
+          <div class="progress-bar-bg">
+            <div id="player-progress-bar" class="progress-bar-fill"></div>
+          </div>
+        </div>
+        <span id="player-time-total" class="time-display">00:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicateur de chargement du lecteur -->
+  <div id="player-loading" class="player-loading hidden">
+    <div class="spinner large"></div>
+    <p id="player-loading-text">Chargement du flux...</p>
+  </div>
+
+  <!-- Indicateur d'erreur lecteur -->
+  <div id="player-error" class="player-error hidden">
+    <div class="error-icon">⚠️</div>
+    <p id="player-error-text"></p>
+    <button id="player-btn-retry" class="tv-btn tv-btn-primary">Réessayer</button>
+    <button id="player-btn-back-from-error" class="tv-btn tv-btn-secondary">Retour</button>
+  </div>
+
+  <!-- Notification seek -->
+  <div id="seek-indicator" class="seek-indicator hidden">
+    <span id="seek-indicator-text"></span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NOTIFICATION TOAST
+═══════════════════════════════════════════════════════════ -->
+<div id="toast" class="toast hidden">
+  <span id="toast-message"></span>
+</div>
+
+<!-- Scripts -->
+<script src="js/storage.js"></script>
+<script src="js/xtream-api.js"></script>
+<script src="js/player.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
