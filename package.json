@@ -1,29 +1,16 @@
 {
-  "name": "iptv-manager-tizen-tv",
+  "name": "iptv-manager-tizenbrew",
   "version": "1.0.0",
-  "description": "IPTV Manager pour Samsung Tizen TV — Application web packagée WGT",
-  "main": "index.html",
-  "scripts": {
-    "install-hls": "node scripts/download-hls.js",
-    "package": "zip -r IPTVManager.wgt . -x '.git/*' -x 'node_modules/*' -x '*.md' -x 'package*.json' -x 'scripts/*'",
-    "build": "npm run install-hls && npm run package"
-  },
-  "keywords": [
-    "iptv",
-    "samsung",
-    "tizen",
-    "smart-tv",
-    "xtream",
-    "m3u",
-    "hls"
-  ],
-  "author": "matifDreamIt",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/matifDreamIt/IPTV-Tizen-TV.git"
-  },
-  "devDependencies": {
-    "hls.js": "^1.5.7"
-  }
+  "description": "IPTV Manager for Samsung TV via TizenBrew",
+  "packageType": "app",
+  "appName": "IPTV Manager",
+  "appPath": "index.html",
+  "keys": [
+    "MediaPlay",
+    "MediaPause",
+    "MediaPlayPause",
+    "MediaStop",
+    "MediaRewind",
+    "MediaFastForward"
+  ]
 }
