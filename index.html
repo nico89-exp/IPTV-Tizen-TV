@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1920, initial-scale=1.0">
@@ -33,50 +33,50 @@
     <div class="login-header">
       <div class="login-icon">📺</div>
       <h1>IPTV Manager</h1>
-      <p>Connectez votre compte Xtream Codes</p>
+      <p>Verbinde dein Xtream-Codes-Konto</p>
     </div>
     <div class="login-form">
       <div class="form-group">
-        <label for="login-name">Nom du compte</label>
-        <input type="text" id="login-name" class="tv-input" placeholder="Mon IPTV" tabindex="1">
+        <label for="login-name">Kontoname</label>
+        <input type="text" id="login-name" class="tv-input" placeholder="Mein IPTV" tabindex="1">
       </div>
       <div class="form-group">
-        <label for="login-server">URL du serveur</label>
-        <input type="text" id="login-server" class="tv-input" placeholder="http://serveur.com:8080" tabindex="2">
+        <label for="login-server">Server-URL</label>
+        <input type="text" id="login-server" class="tv-input" placeholder="http://server.de:8080" tabindex="2">
       </div>
       <div class="form-group">
-        <label for="login-username">Nom d'utilisateur</label>
+        <label for="login-username">Benutzername</label>
         <input type="text" id="login-username" class="tv-input" placeholder="username" tabindex="3">
       </div>
       <div class="form-group">
-        <label for="login-password">Mot de passe</label>
+        <label for="login-password">Passwort</label>
         <input type="password" id="login-password" class="tv-input" placeholder="••••••••" tabindex="4">
       </div>
       <div class="form-actions">
         <button id="btn-login" class="tv-btn tv-btn-primary" tabindex="5">
-          <span>Se connecter</span>
+          <span>Anmelden</span>
         </button>
         <button id="btn-demo" class="tv-btn tv-btn-secondary" tabindex="6">
-          <span>Mode démo</span>
+          <span>Demo-Modus</span>
         </button>
       </div>
       <div id="login-error" class="login-error hidden"></div>
       <div id="login-loading" class="login-loading hidden">
         <div class="spinner"></div>
-        <span>Connexion en cours...</span>
+        <span>Verbindung wird hergestellt...</span>
       </div>
     </div>
-    <!-- Comptes sauvegardés -->
+    <!-- Gespeicherte Konten -->
     <div id="saved-accounts-section" class="saved-accounts hidden">
-      <h3>Comptes sauvegardés</h3>
+      <h3>Gespeicherte Konten</h3>
       <div id="saved-accounts-list" class="accounts-list"></div>
     </div>
   </div>
   <!-- Aide navigation -->
   <div class="key-hints">
-    <span>↑↓ Naviguer</span>
-    <span>OK Sélectionner</span>
-    <span>⬅ Retour</span>
+    <span>↑↓ Navigieren</span>
+    <span>OK Auswählen</span>
+    <span>⬅ Zurück</span>
   </div>
 </div>
 
@@ -94,11 +94,11 @@
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item active" data-tab="home" tabindex="10">
         <span class="nav-icon">🏠</span>
-        <span class="nav-label">Accueil</span>
+        <span class="nav-label">Start</span>
       </li>
       <li class="nav-item" data-tab="live" tabindex="11">
         <span class="nav-icon">📡</span>
-        <span class="nav-label">TV en direct</span>
+        <span class="nav-label">Live-TV</span>
       </li>
       <li class="nav-item" data-tab="vod" tabindex="12">
         <span class="nav-icon">🎬</span>
@@ -106,19 +106,19 @@
       </li>
       <li class="nav-item" data-tab="series" tabindex="13">
         <span class="nav-icon">📺</span>
-        <span class="nav-label">Séries</span>
+        <span class="nav-label">Serien</span>
       </li>
       <li class="nav-item" data-tab="favorites" tabindex="14">
         <span class="nav-icon">⭐</span>
-        <span class="nav-label">Favoris</span>
+        <span class="nav-label">Favoriten</span>
       </li>
       <li class="nav-item" data-tab="recents" tabindex="15">
         <span class="nav-icon">🕐</span>
-        <span class="nav-label">Récents</span>
+        <span class="nav-label">Zuletzt angesehen</span>
       </li>
       <li class="nav-item" data-tab="settings" tabindex="16">
         <span class="nav-icon">⚙️</span>
-        <span class="nav-label">Paramètres</span>
+        <span class="nav-label">Einstellungen</span>
       </li>
     </ul>
     <div class="sidebar-account" id="sidebar-account">
@@ -136,37 +136,37 @@
     <!-- ─── ONGLET ACCUEIL ─── -->
     <div id="tab-home" class="tab-content active">
       <div class="tab-header">
-        <h2>Accueil</h2>
+        <h2>Start</h2>
         <div class="header-clock" id="header-clock"></div>
       </div>
 
-      <!-- Continuer à regarder -->
+      <!-- Weiterschauen -->
       <section class="content-section" id="section-recents">
         <div class="section-header">
-          <h3>Continuer à regarder</h3>
+          <h3>Weiterschauen</h3>
         </div>
         <div class="horizontal-scroll" id="home-recents-list">
-          <div class="empty-row">Aucun contenu récent</div>
+          <div class="empty-row">Keine zuletzt angesehenen Inhalte</div>
         </div>
       </section>
 
-      <!-- Chaînes favorites -->
+      <!-- Favoritenierte Sender -->
       <section class="content-section" id="section-fav-live">
         <div class="section-header">
-          <h3>Chaînes favorites</h3>
+          <h3>Favoritenierte Sender</h3>
         </div>
         <div class="horizontal-scroll" id="home-fav-live-list">
-          <div class="empty-row">Aucune chaîne favorite</div>
+          <div class="empty-row">Keine favorisierten Sender</div>
         </div>
       </section>
 
       <!-- Films récents -->
       <section class="content-section" id="section-fav-vod">
         <div class="section-header">
-          <h3>Films favoris</h3>
+          <h3>Favoritenierte Filme</h3>
         </div>
         <div class="horizontal-scroll" id="home-fav-vod-list">
-          <div class="empty-row">Aucun film favori</div>
+          <div class="empty-row">Keine favorisierten Filme</div>
         </div>
       </section>
     </div>
@@ -174,19 +174,19 @@
     <!-- ─── ONGLET TV EN DIRECT ─── -->
     <div id="tab-live" class="tab-content">
       <div class="tab-header">
-        <h2>TV en direct</h2>
-        <input type="text" id="live-search" class="tab-search" placeholder="Rechercher une chaîne...">
+        <h2>Live-TV</h2>
+        <input type="text" id="live-search" class="tab-search" placeholder="Sender suchen...">
       </div>
       <div class="two-column-layout">
         <!-- Catégories -->
         <div class="categories-panel" id="live-categories-panel">
-          <div class="category-item active" data-id="all">Toutes les chaînes</div>
+          <div class="category-item active" data-id="all">Alle Sender</div>
         </div>
         <!-- Liste des chaînes -->
         <div class="channels-panel" id="live-channels-list">
           <div class="loading-state">
             <div class="spinner"></div>
-            <p>Chargement...</p>
+            <p>Wird geladen...</p>
           </div>
         </div>
       </div>
@@ -196,16 +196,16 @@
     <div id="tab-vod" class="tab-content">
       <div class="tab-header">
         <h2>Films</h2>
-        <input type="text" id="vod-search" class="tab-search" placeholder="Rechercher un film...">
+        <input type="text" id="vod-search" class="tab-search" placeholder="Film suchen...">
       </div>
       <div class="two-column-layout">
         <div class="categories-panel" id="vod-categories-panel">
-          <div class="category-item active" data-id="all">Tous les films</div>
+          <div class="category-item active" data-id="all">Alle Filme</div>
         </div>
         <div class="grid-panel" id="vod-grid">
           <div class="loading-state">
             <div class="spinner"></div>
-            <p>Chargement...</p>
+            <p>Wird geladen...</p>
           </div>
         </div>
       </div>
@@ -214,17 +214,17 @@
     <!-- ─── ONGLET SÉRIES ─── -->
     <div id="tab-series" class="tab-content">
       <div class="tab-header">
-        <h2>Séries</h2>
-        <input type="text" id="series-search" class="tab-search" placeholder="Rechercher une série...">
+        <h2>Serien</h2>
+        <input type="text" id="series-search" class="tab-search" placeholder="Serie suchen...">
       </div>
       <div class="two-column-layout">
         <div class="categories-panel" id="series-categories-panel">
-          <div class="category-item active" data-id="all">Toutes les séries</div>
+          <div class="category-item active" data-id="all">Alle Serien</div>
         </div>
         <div class="grid-panel" id="series-grid">
           <div class="loading-state">
             <div class="spinner"></div>
-            <p>Chargement...</p>
+            <p>Wird geladen...</p>
           </div>
         </div>
       </div>
@@ -233,12 +233,12 @@
     <!-- ─── ONGLET FAVORIS ─── -->
     <div id="tab-favorites" class="tab-content">
       <div class="tab-header">
-        <h2>Mes Favoris</h2>
+        <h2>Meine Favoriten</h2>
       </div>
       <div class="sub-tabs">
-        <button class="sub-tab active" data-subtab="fav-live">Chaînes</button>
+        <button class="sub-tab active" data-subtab="fav-live">Sender</button>
         <button class="sub-tab" data-subtab="fav-vod">Films</button>
-        <button class="sub-tab" data-subtab="fav-series">Séries</button>
+        <button class="sub-tab" data-subtab="fav-series">Serien</button>
       </div>
       <div id="fav-live" class="sub-tab-content active">
         <div class="grid-panel" id="fav-live-grid"></div>
@@ -254,8 +254,8 @@
     <!-- ─── ONGLET RÉCENTS ─── -->
     <div id="tab-recents" class="tab-content">
       <div class="tab-header">
-        <h2>Récemment regardés</h2>
-        <button class="tv-btn tv-btn-danger" id="btn-clear-recents">Tout effacer</button>
+        <h2>Zuletzt angesehen</h2>
+        <button class="tv-btn tv-btn-danger" id="btn-clear-recents">Alle löschen</button>
       </div>
       <div class="grid-panel" id="recents-grid"></div>
     </div>
@@ -263,35 +263,35 @@
     <!-- ─── ONGLET PARAMÈTRES ─── -->
     <div id="tab-settings" class="tab-content">
       <div class="tab-header">
-        <h2>Paramètres</h2>
+        <h2>Einstellungen</h2>
       </div>
       <div class="settings-layout">
-        <!-- Compte actif -->
+        <!-- Aktives Konto -->
         <div class="settings-section">
-          <h3>Compte actif</h3>
+          <h3>Aktives Konto</h3>
           <div id="settings-active-account" class="account-card"></div>
-          <button class="tv-btn tv-btn-secondary" id="btn-add-account">+ Ajouter un compte</button>
+          <button class="tv-btn tv-btn-secondary" id="btn-add-account">+ Konto hinzufügen</button>
         </div>
-        <!-- Comptes sauvegardés -->
+        <!-- Gespeicherte Konten -->
         <div class="settings-section">
-          <h3>Comptes sauvegardés</h3>
+          <h3>Gespeicherte Konten</h3>
           <div id="settings-accounts-list" class="accounts-list"></div>
         </div>
-        <!-- Préférences -->
+        <!-- Einstellungen -->
         <div class="settings-section">
-          <h3>Préférences</h3>
+          <h3>Einstellungen</h3>
           <div class="setting-row">
-            <span>Qualité vidéo</span>
+            <span>Videoqualität</span>
             <select class="tv-select" id="pref-quality">
-              <option value="auto">Automatique</option>
-              <option value="high">Haute</option>
-              <option value="medium">Moyenne</option>
+              <option value="auto">Automatisch</option>
+              <option value="high">Hoch</option>
+              <option value="medium">Mittel</option>
             </select>
           </div>
           <div class="setting-row">
-            <span>Langue</span>
+            <span>Sprache</span>
             <select class="tv-select" id="pref-lang">
-              <option value="fr">Français</option>
+              <option value="fr">Deutsch</option>
               <option value="en">English</option>
               <option value="ar">العربية</option>
             </select>
@@ -299,16 +299,16 @@
         </div>
         <!-- Navigation télécommande -->
         <div class="settings-section">
-          <h3>Guide télécommande</h3>
+          <h3>Fernbedienung</h3>
           <div class="remote-guide">
-            <div class="remote-row"><kbd>↑ ↓ ← →</kbd> <span>Naviguer dans les menus</span></div>
-            <div class="remote-row"><kbd>OK / Enter</kbd> <span>Sélectionner / Lancer</span></div>
-            <div class="remote-row"><kbd>Return / Back</kbd> <span>Retour</span></div>
-            <div class="remote-row"><kbd>← (dans contenu)</kbd> <span>Ouvrir menu latéral</span></div>
-            <div class="remote-row"><kbd>Play/Pause</kbd> <span>Lecture / Pause</span></div>
-            <div class="remote-row"><kbd>← → (lecteur)</kbd> <span>Reculer / Avancer 10s</span></div>
-            <div class="remote-row"><kbd>↑ ↓ (lecteur)</kbd> <span>Avancer / Reculer 30s</span></div>
-            <div class="remote-row"><kbd>Rouge</kbd> <span>Ajouter / Retirer favori</span></div>
+            <div class="remote-row"><kbd>↑ ↓ ← →</kbd> <span>In Menüs navigieren</span></div>
+            <div class="remote-row"><kbd>OK / Enter</kbd> <span>Auswählen / Starten</span></div>
+            <div class="remote-row"><kbd>Return / Back</kbd> <span>Zurück</span></div>
+            <div class="remote-row"><kbd>← (dans contenu)</kbd> <span>Seitenmenü öffnen</span></div>
+            <div class="remote-row"><kbd>Play/Pause</kbd> <span>Wiedergabe / Pause</span></div>
+            <div class="remote-row"><kbd>← → (lecteur)</kbd> <span>10 s zurück / vor</span></div>
+            <div class="remote-row"><kbd>↑ ↓ (lecteur)</kbd> <span>30 s vor / zurück</span></div>
+            <div class="remote-row"><kbd>Rot</kbd> <span>Favorit hinzufügen / entfernen</span></div>
           </div>
         </div>
         <!-- Version -->
@@ -339,16 +339,16 @@
           <span id="series-detail-rating" class="meta-badge"></span>
           <span id="series-detail-year" class="meta-badge"></span>
         </div>
-        <button id="btn-series-favorite" class="tv-btn tv-btn-favorite">⭐ Ajouter aux favoris</button>
+        <button id="btn-series-favorite" class="tv-btn tv-btn-favorite">⭐ Zu Favoriten hinzufügen</button>
       </div>
     </div>
     <!-- Sélecteur de saison -->
     <div class="season-selector" id="season-selector"></div>
     <!-- Liste épisodes -->
     <div class="episodes-list" id="episodes-list">
-      <div class="loading-state"><div class="spinner"></div><p>Chargement des épisodes...</p></div>
+      <div class="loading-state"><div class="spinner"></div><p>Episoden werden geladen...</p></div>
     </div>
-    <button class="modal-close" id="btn-close-series">✕ Fermer</button>
+    <button class="modal-close" id="btn-close-series">✕ Schließen</button>
   </div>
 </div>
 
@@ -368,8 +368,8 @@
         <span id="player-live-badge" class="live-badge hidden">● LIVE</span>
       </div>
       <div class="player-top-actions">
-        <button id="player-btn-favorite" class="player-action-btn" title="Favori">⭐</button>
-        <button id="player-btn-close" class="player-action-btn" title="Fermer">✕</button>
+        <button id="player-btn-favorite" class="player-action-btn" title="Favorit">⭐</button>
+        <button id="player-btn-close" class="player-action-btn" title="Schließen">✕</button>
       </div>
     </div>
 
@@ -397,15 +397,15 @@
   <!-- Indicateur de chargement du lecteur -->
   <div id="player-loading" class="player-loading hidden">
     <div class="spinner large"></div>
-    <p id="player-loading-text">Chargement du flux...</p>
+    <p id="player-loading-text">Stream wird geladen...</p>
   </div>
 
   <!-- Indicateur d'erreur lecteur -->
   <div id="player-error" class="player-error hidden">
     <div class="error-icon">⚠️</div>
     <p id="player-error-text"></p>
-    <button id="player-btn-retry" class="tv-btn tv-btn-primary">Réessayer</button>
-    <button id="player-btn-back-from-error" class="tv-btn tv-btn-secondary">Retour</button>
+    <button id="player-btn-retry" class="tv-btn tv-btn-primary">Erneut versuchen</button>
+    <button id="player-btn-back-from-error" class="tv-btn tv-btn-secondary">Zurück</button>
   </div>
 
   <!-- Notification seek -->

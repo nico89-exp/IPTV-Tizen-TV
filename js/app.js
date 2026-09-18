@@ -95,13 +95,13 @@ const App = (() => {
   }
 
   async function _handleLogin() {
-    const name = (document.getElementById('login-name').value || '').trim() || 'Mon IPTV';
+    const name = (document.getElementById('login-name').value || '').trim() || 'Mein IPTV';
     const server = (document.getElementById('login-server').value || '').trim();
     const username = (document.getElementById('login-username').value || '').trim();
     const password = (document.getElementById('login-password').value || '').trim();
 
     if (!server || !username || !password) {
-      _showLoginError('Veuillez remplir tous les champs obligatoires.');
+      _showLoginError('Bitte fülle alle Pflichtfelder aus.');
       return;
     }
 
@@ -131,7 +131,7 @@ const App = (() => {
       await _loadAllContent();
     } catch (err) {
       _showLoginLoading(false);
-      _showLoginError('Connexion impossible : ' + (err.message || err));
+      _showLoginError('Verbindung fehlgeschlagen: ' + (err.message || err));
     }
   }
 
@@ -195,7 +195,7 @@ const App = (() => {
       item.innerHTML = `
         <span class="account-item-name">${_esc(acc.name)}</span>
         <span class="account-item-server">${_esc(acc.serverUrl)}</span>
-        <button class="account-item-delete" data-id="${acc.id}" title="Supprimer">🗑️</button>
+        <button class="account-item-delete" data-id="${acc.id}" title="Löschen">🗑️</button>
       `;
       item.addEventListener('click', () => _loginWithAccount(acc));
       item.addEventListener('keydown', e => { if (e.key === 'Enter') _loginWithAccount(acc); });
@@ -417,7 +417,7 @@ const App = (() => {
     if (!container) return;
     const recents = Storage.getRecents();
     if (recents.length === 0) {
-      container.innerHTML = '<div class="empty-row">Aucun contenu récent</div>';
+      container.innerHTML = '<div class="empty-row">Keine zuletzt angesehenen Inhalte</div>';
       return;
     }
     container.innerHTML = '';
@@ -557,7 +557,7 @@ const App = (() => {
           <div class="channel-name">${_esc(ch.name)}</div>
           <div class="channel-group">${_getCategoryName(liveCategories, ch.categoryId)}</div>
         </div>
-        <button class="channel-fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+        <button class="channel-fav-btn ${isFav ? 'active' : ''}" title="${isFav ? 'Retirer des favoris' : 'Zu Favoriten hinzufügen'}">
           ${isFav ? '⭐' : '☆'}
         </button>
       `;
@@ -595,7 +595,7 @@ const App = (() => {
       btn.textContent = isNowFav ? '⭐' : '☆';
       btn.classList.toggle('active', isNowFav);
     }
-    showToast(isNowFav ? '⭐ Ajouté aux favoris' : '✕ Retiré des favoris');
+    showToast(isNowFav ? '⭐ Ajouté aux favoris' : '✕ Aus Favoriten entfernt');
   }
 
   // ════════════════════════════════════════════
@@ -732,7 +732,7 @@ const App = (() => {
     }
 
     if (filtered.length === 0) {
-      grid.innerHTML = '<div class="loading-state"><p>Aucune série trouvée</p></div>';
+      grid.innerHTML = '<div class="loading-state"><p>Keine Serie gefunden</p></div>';
       return;
     }
 
@@ -754,7 +754,7 @@ const App = (() => {
       categoryId: series.categoryId,
     };
     const isNowFav = Storage.toggleFavorite(favItem);
-    showToast(isNowFav ? '⭐ Série ajoutée aux favoris' : '✕ Série retirée des favoris');
+    showToast(isNowFav ? '⭐ Serie zu Favoriten hinzugefügt' : '✕ Serie aus Favoriten entfernt');
     _renderSeriesGrid();
   }
 
@@ -778,24 +778,24 @@ const App = (() => {
     const isFav = Storage.isFavorite(series.id);
     const favBtn = document.getElementById('btn-series-favorite');
     if (favBtn) {
-      favBtn.textContent = isFav ? '⭐ Dans les favoris' : '☆ Ajouter aux favoris';
+      favBtn.textContent = isFav ? '⭐ In Favoriten' : '☆ Zu Favoriten hinzufügen';
       favBtn.onclick = () => {
         _toggleSeriesFavorite(series);
         const nowFav = Storage.isFavorite(series.id);
-        favBtn.textContent = nowFav ? '⭐ Dans les favoris' : '☆ Ajouter aux favoris';
+        favBtn.textContent = nowFav ? '⭐ In Favoriten' : '☆ Zu Favoriten hinzufügen';
       };
     }
 
     const episodesList = document.getElementById('episodes-list');
     const seasonSelector = document.getElementById('season-selector');
-    episodesList.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Chargement...</p></div>';
+    episodesList.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Wird geladen...</p></div>';
     seasonSelector.innerHTML = '';
 
     const closeBtn = document.getElementById('btn-close-series');
     if (closeBtn) closeBtn.onclick = closeSeriesModal;
 
     if (isDemoMode) {
-      episodesList.innerHTML = '<div class="loading-state"><p>Épisodes non disponibles en mode démo</p></div>';
+      episodesList.innerHTML = '<div class="loading-state"><p>Episoden sind im Demo-Modus nicht verfügbar</p></div>';
       return;
     }
 
@@ -813,7 +813,7 @@ const App = (() => {
     seasonSelector.innerHTML = '';
 
     if (detail.seasons.length === 0) {
-      episodesList.innerHTML = '<div class="loading-state"><p>Aucun épisode disponible</p></div>';
+      episodesList.innerHTML = '<div class="loading-state"><p>Keine Episode verfügbar</p></div>';
       return;
     }
 
@@ -895,7 +895,7 @@ const App = (() => {
     const favs = Storage.getFavoritesByType(type);
 
     if (favs.length === 0) {
-      grid.innerHTML = '<div class="loading-state"><p>Aucun favori</p></div>';
+      grid.innerHTML = '<div class="loading-state"><p>Keine Favoriten</p></div>';
       return;
     }
 
@@ -904,7 +904,7 @@ const App = (() => {
       const emoji = type === 'live' ? '📺' : type === 'vod' ? '🎬' : '📺';
       const card = _createGridCard(fav, emoji, i, 600, () => _playFavorite(fav), () => {
         Storage.removeFavorite(fav.id);
-        showToast('✕ Retiré des favoris');
+        showToast('✕ Aus Favoriten entfernt');
         _renderFavGrid(containerId, type);
       });
       grid.appendChild(card);
@@ -921,7 +921,7 @@ const App = (() => {
     const recents = Storage.getRecents();
 
     if (recents.length === 0) {
-      grid.innerHTML = '<div class="loading-state"><p>Aucun contenu récent</p></div>';
+      grid.innerHTML = '<div class="loading-state"><p>Keine zuletzt angesehenen Inhalte</p></div>';
       return;
     }
 
@@ -947,19 +947,19 @@ const App = (() => {
     const activeCard = document.getElementById('settings-active-account');
     if (activeCard && activeAccount) {
       const exp = activeAccount.userInfo?.expDate;
-      let expDisplay = 'Illimitée';
+      let expDisplay = 'Unbegrenzt';
       if (exp && exp !== '' && exp !== 'null') {
         const ts = parseInt(exp);
         if (!isNaN(ts)) {
           const dt = new Date(ts * 1000);
-          expDisplay = dt.toLocaleDateString('fr-FR');
+          expDisplay = dt.toLocaleDateString('de-DE');
         }
       }
       activeCard.innerHTML = `
         <div class="account-card-name">${_esc(activeAccount.name)}</div>
         <div class="account-card-server">${_esc(activeAccount.serverUrl)}</div>
-        <div class="account-card-status">${isDemoMode ? '🎭 Mode démo' : '✅ ' + (activeAccount.userInfo?.status || 'Connecté')}</div>
-        <div class="account-card-exp">Expiration : ${expDisplay}</div>
+        <div class="account-card-status">${isDemoMode ? '🎭 Demo-Modus' : '✅ ' + (activeAccount.userInfo?.status || 'Verbunden')}</div>
+        <div class="account-card-exp">Ablauf: ${expDisplay}</div>
       `;
     }
 
@@ -967,7 +967,7 @@ const App = (() => {
     if (accountsList) {
       const accounts = Storage.getAccounts();
       if (accounts.length === 0) {
-        accountsList.innerHTML = '<p style="color:var(--text-dim);font-size:24px">Aucun compte sauvegardé</p>';
+        accountsList.innerHTML = '<p style="color:var(--text-dim);font-size:24px">Keine gespeicherten Konten</p>';
         return;
       }
       accountsList.innerHTML = '';
@@ -978,7 +978,7 @@ const App = (() => {
         item.innerHTML = `
           <span class="account-item-name">${_esc(acc.name)}</span>
           <span class="account-item-server">${_esc(acc.serverUrl)}</span>
-          <button class="account-item-delete" title="Supprimer">🗑️</button>
+          <button class="account-item-delete" title="Löschen">🗑️</button>
         `;
         if (activeAccount && acc.id === activeAccount.id) {
           item.style.borderColor = 'var(--accent)';
@@ -993,7 +993,7 @@ const App = (() => {
             _showMainApp();
             await _loadAllContent();
           } catch (e) {
-            showToast('Erreur connexion : ' + e.message);
+            showToast('Verbindungsfehler: ' + e.message);
           }
         });
         item.querySelector('.account-item-delete').addEventListener('click', e => {
@@ -1011,7 +1011,7 @@ const App = (() => {
   // ════════════════════════════════════════════
 
   function _playLiveChannel(ch) {
-    if (!activeAccount) { showToast('Aucun compte actif'); return; }
+    if (!activeAccount) { showToast('Kein aktives Konto'); return; }
     const url = XtreamAPI.liveStreamUrl(activeAccount, ch.streamId);
     Player.load({
       id: ch.id,
@@ -1028,7 +1028,7 @@ const App = (() => {
   }
 
   function _playVod(vod) {
-    if (!activeAccount) { showToast('Aucun compte actif'); return; }
+    if (!activeAccount) { showToast('Kein aktives Konto'); return; }
     const url = XtreamAPI.vodStreamUrl(activeAccount, vod.streamId, vod.containerExtension);
     Player.load({
       id: vod.id,
@@ -1046,7 +1046,7 @@ const App = (() => {
   }
 
   function _playFavorite(fav) {
-    if (!fav.url) { showToast('URL de lecture introuvable'); return; }
+    if (!fav.url) { showToast('Wiedergabe-URL nicht gefunden'); return; }
     Player.load({
       id: fav.id,
       title: fav.title,
@@ -1060,7 +1060,7 @@ const App = (() => {
   }
 
   function _playItem(item) {
-    if (!item.url) { showToast('URL introuvable'); return; }
+    if (!item.url) { showToast('URL nicht gefunden'); return; }
     Player.load({
       id: item.id,
       title: item.title,
@@ -1213,7 +1213,7 @@ const App = (() => {
       const el = document.getElementById('header-clock');
       if (el) {
         const now = new Date();
-        el.textContent = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        el.textContent = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
       }
     }
     update();

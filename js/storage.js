@@ -195,7 +195,7 @@ const Storage = (() => {
   function getPreferences() {
     return getJSON(KEYS.PREFERENCES, {
       quality: 'auto',
-      language: 'fr',
+      language: 'de',
     });
   }
 

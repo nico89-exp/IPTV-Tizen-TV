@@ -229,7 +229,7 @@ const Player = (() => {
     const isNowFav = Storage.toggleFavorite(favItem);
     const favBtn = document.getElementById('player-btn-favorite');
     if (favBtn) favBtn.style.color = isNowFav ? '#ffaa33' : 'white';
-    App.showToast(isNowFav ? '⭐ Ajouté aux favoris' : '✕ Retiré des favoris');
+    App.showToast(isNowFav ? '⭐ Zu Favoriten hinzugefügt' : '✕ Aus Favoriten entfernt');
   }
 
   // ════════════════════════════════════════════
@@ -261,7 +261,7 @@ const Player = (() => {
   // ════════════════════════════════════════════
 
   function _onWaiting() {
-    _showLoading('Mise en mémoire tampon...');
+    _showLoading('Pufferung...');
   }
 
   function _onCanPlay() {
@@ -289,7 +289,7 @@ const Player = (() => {
   }
 
   function _onError(event, customMsg) {
-    const msg = customMsg || 'Erreur de lecture. Le flux est peut-être indisponible.';
+    const msg = customMsg || 'Wiedergabefehler. Der Stream ist möglicherweise nicht verfügbar.';
     _hideLoading();
     _showError(msg);
   }
@@ -356,7 +356,7 @@ const Player = (() => {
   function _retryLoad() {
     if (!currentItem) return;
     _hideError();
-    _showLoading('Nouvelle tentative...');
+    _showLoading('Neuer Versuch...');
     setTimeout(() => {
       if (currentItem.url.includes('.m3u8') || currentItem.type === 'live') {
         _loadHls(currentItem.url, 0);
@@ -461,7 +461,7 @@ const Player = (() => {
   function _showLoading(msg) {
     loadingEl.classList.remove('hidden');
     const txt = document.getElementById('player-loading-text');
-    if (txt) txt.textContent = msg || 'Chargement...';
+    if (txt) txt.textContent = msg || 'Wird geladen...';
     errorEl.classList.add('hidden');
   }
 

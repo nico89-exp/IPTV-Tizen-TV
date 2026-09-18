@@ -123,6 +123,37 @@ const Navigation = (() => {
   }
 
   function _handleAppKeys(event, key, code) {
+    // Login: D-Pad-Navigation zwischen Eingabefeldern und Schaltflächen
+    const loginScreen = document.getElementById('login-screen');
+    if (loginScreen && !loginScreen.classList.contains('hidden')) {
+      const loginItems = [
+        document.getElementById('login-name'),
+        document.getElementById('login-server'),
+        document.getElementById('login-username'),
+        document.getElementById('login-password'),
+        document.getElementById('btn-login'),
+        document.getElementById('btn-demo')
+      ].filter(Boolean);
+
+      const focused = document.activeElement;
+      const index = loginItems.indexOf(focused);
+
+      if (code === TizenKey.DOWN) {
+        event.preventDefault();
+        event.stopPropagation();
+        const next = index >= 0 && index < loginItems.length - 1 ? index + 1 : 0;
+        loginItems[next].focus();
+        return;
+      }
+
+      if (code === TizenKey.UP) {
+        event.preventDefault();
+        event.stopPropagation();
+        const previous = index > 0 ? index - 1 : loginItems.length - 1;
+        loginItems[previous].focus();
+        return;
+      }
+    }
     // Retour / Escape
     if (key === 'Escape' || code === TizenKey.BACK || code === TizenKey.BACKSPACE) {
       event.preventDefault();
@@ -325,7 +356,7 @@ const Navigation = (() => {
 
   function _confirmExit() {
     // Sur Tizen, on peut appeler tizen.application.getCurrentApplication().exit()
-    if (confirm('Quitter IPTV Manager ?')) {
+    if (confirm('IPTV Manager beenden?')) {
       if (typeof tizen !== 'undefined') {
         try {
           tizen.application.getCurrentApplication().exit();
