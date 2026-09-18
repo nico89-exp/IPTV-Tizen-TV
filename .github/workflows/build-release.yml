@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Download HLS.js
-        run: npm run install-hls
-
       - name: Create WGT
         run: |
           zip -r IPTVManager.wgt . \
