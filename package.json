@@ -1,10 +1,13 @@
 {
   "name": "iptv-manager-tizenbrew",
   "version": "1.0.0",
-  "description": "IPTV Manager for Samsung TV via TizenBrew",
+  "description": "IPTV Manager for Samsung Tizen TV via TizenBrew",
+  "main": "index.html",
+
   "packageType": "app",
   "appName": "IPTV Manager",
   "appPath": "index.html",
+
   "keys": [
     "MediaPlay",
     "MediaPause",
@@ -12,5 +15,34 @@
     "MediaStop",
     "MediaRewind",
     "MediaFastForward"
-  ]
+  ],
+
+  "scripts": {
+    "install-hls": "node scripts/download-hls.js",
+    "package": "zip -r IPTVManager.wgt . -x '.git/*' -x 'node_modules/*' -x '*.md' -x 'package*.json' -x 'scripts/*'",
+    "build": "npm run install-hls && npm run package"
+  },
+
+  "keywords": [
+    "iptv",
+    "samsung",
+    "tizen",
+    "smart-tv",
+    "xtream",
+    "m3u",
+    "hls",
+    "tizenbrew"
+  ],
+
+  "author": "matifDreamIt",
+  "license": "MIT",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nico89-exp/IPTV-Tizen-TV.git"
+  },
+
+  "devDependencies": {
+    "hls.js": "^1.5.7"
+  }
 }
