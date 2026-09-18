@@ -1,7 +1,7 @@
 {
-  "name": "iptv-manager-tizenbrew",
+  "name": "iptv-manager-tizen-tv",
   "version": "1.0.0",
-  "description": "IPTV Manager for Samsung Tizen TV via TizenBrew",
+  "description": "IPTV Manager pour Samsung Tizen TV — Application web packagée WGT",
   "main": "index.html",
 
   "packageType": "app",
@@ -14,7 +14,8 @@
     "MediaPlayPause",
     "MediaStop",
     "MediaRewind",
-    "MediaFastForward"
+    "MediaFastForward",
+    "ColorF0Red"
   ],
 
   "scripts": {
